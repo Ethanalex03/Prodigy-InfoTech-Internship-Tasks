@@ -103,24 +103,92 @@ python image_encryption_tool.py info -i image.jpg
 **File:** `password_strength_checker.py`
 
 ### Description
-Checks password strength based on multiple criteria including length, character types, and composition.
+Comprehensive password strength analyzer with detailed feedback and recommendations. Checks passwords against common patterns, keyboard sequences, and security best practices.
 
-### Scoring Criteria
+### Scoring System (0-10 Scale)
 
-- **Length:** Extra points for passwords longer than 8, 12, and 16 characters
-- **Uppercase Letters:** Checks for A-Z
-- **Lowercase Letters:** Checks for a-z
-- **Digits:** Checks for 0-9
-- **Special Characters:** Checks for punctuation marks
-- **Character Variety:** Counts unique characters
+**Points Awarded For:**
+- Length (8+ chars = 1pt, 12+ chars = 2pts, 16+ chars = 3pts)
+- Uppercase letters (A-Z) = 1 point
+- Lowercase letters (a-z) = 1 point
+- Numbers (0-9) = 1 point
+- Special characters (!@#$%^&*) = 1 point
+- Character variety = 1 point
 
-### Current Implementation
-The tool analyzes a hardcoded test password and outputs:
-- Whether it contains uppercase letters
-- Whether it contains lowercase letters
-- Whether it contains special characters
-- Whether it contains digits
-- Overall password length scoring
+**Deductions For:**
+- Common passwords list = -3 points
+- Keyboard patterns (qwerty, asdfgh, etc.) = -2 points
+- Sequential patterns (111, abc) = -1 point
+- Simple patterns (password123) = -1 point
+- Low character variety = -1 point
+
+### Strength Levels
+
+| Score | Level | Status |
+|-------|-------|--------|
+| 0 | VERY WEAK | ❌ |
+| 1-2 | WEAK | ⚠️ |
+| 3-4 | FAIR | 🔶 |
+| 5-6 | GOOD | ✓ |
+| 7-8 | STRONG | ✅ |
+| 9-10 | VERY STRONG | 🔒 |
+
+### Advanced Features
+
+- **Common Password Detection:** Checks against 16+ known weak passwords
+- **Keyboard Pattern Detection:** Identifies patterns like qwerty, asdfgh, zxcvbn
+- **Character Variety Analysis:** Measures unique character ratio
+- **Pattern Recognition:** Detects sequential numbers/letters and simple patterns
+- **Detailed Feedback:** Shows exactly what's good and what needs improvement
+- **Safe Password Display:** Never shows the actual password in output
+
+### Usage
+
+**Interactive Mode:**
+```bash
+python password_strength_checker.py
+```
+
+**Command-Line Mode:**
+```bash
+python password_strength_checker.py MyP@ssw0rd
+```
+
+### Example Output
+
+```
+==================================================
+   PASSWORD STRENGTH CHECKER v2.0
+==================================================
+
+📊 PASSWORD ANALYSIS
+   Length: 12 characters
+   Hidden: ************
+
+📋 DETAILED FEEDBACK:
+   ✓ Password length is good (12-15 characters)
+   ✓ Contains uppercase letters: M, P
+   ✓ Contains numbers: 0
+   ✓ Contains special characters: @
+   ✓ Good character variety (9 unique of 12)
+
+🎯 SCORE: 7/10
+💪 STRENGTH: STRONG ✅
+
+💡 RECOMMENDATIONS:
+   • Increase password length to at least 16 characters
+```
+
+### Sample Test Cases
+
+| Password | Score | Strength | Notes |
+|----------|-------|----------|-------|
+| `password` | 1 | WEAK | Common password, no numbers/special chars |
+| `Pass123` | 5 | GOOD | Has variety but could be longer |
+| `MyP@ssw0rd` | 7 | STRONG | Good length and variety |
+| `K7#mQ$nL9@vP2xY!` | 10 | VERY STRONG | 16+ chars, all criteria met, unique chars |
+| `qwerty123` | -1 | VERY WEAK | Keyboard pattern detected |
+| `123456789` | 1 | WEAK | Only numbers, too common |
 
 ---
 
